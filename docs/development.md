@@ -32,6 +32,12 @@ and the brand-logo and topic folders it draws itself from the theme's folder sha
 `npm run build`, `npm run dev` and `npm test`, and is git-ignored — the icon packages are the
 source of truth, pinned in `package-lock.json`.
 
+The script also writes `src/generated/icons.d.ts`, the same exports as types only, and that one
+**is** committed: a fresh checkout — and the Obsidian plugin review, which lints the tagged
+source without building it — would otherwise see every import from the table as an unresolved
+`error` type. It holds no data or versions, so an icon update leaves it alone; commit it when
+you change the table's shape. CI fails if it is stale.
+
 The brand logos are a hand-picked list, `SLUGS` in `scripts/build-icons.ts`. Adding one means
 adding its Simple Icons slug there; the build fails on a slug Simple Icons does not have.
 Render a new logo at 16px before adding it — wordmark-only logos do not read at that size.
@@ -76,9 +82,9 @@ src/
   picker/        the modal, and the folder and file catalogs it shows
   settings/      settings types, validation, the settings tab
   store/         path → icon assignments, persisted through loadData/saveData
-  generated/     build output (git-ignored)
+  generated/     build output (git-ignored), and its committed icons.d.ts
 scripts/
-  build-icons.ts   generates src/generated/icons.ts
+  build-icons.ts   generates src/generated/icons.ts and icons.d.ts
   version-bump.mjs run by `npm version`; see releasing.md
 tests/           vitest, no Obsidian required
 ```

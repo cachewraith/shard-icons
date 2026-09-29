@@ -25,7 +25,7 @@ yourself always wins.
 ### With BRAT (now)
 
 1. Install **BRAT** from Community Plugins.
-2. _BRAT → Add beta plugin_ → `https://github.com/cachewraith-labs/shard-icons`.
+2. _BRAT → Add beta plugin_ → `https://github.com/cachewraith/shard-icons`.
 3. Enable **Shard Icons** in _Settings → Community plugins_.
 
 BRAT follows GitHub releases, so it picks up new versions the same way the official installer
@@ -34,7 +34,7 @@ does.
 ### Manually
 
 Download `main.js`, `manifest.json` and `styles.css` from the
-[latest release](https://github.com/cachewraith-labs/shard-icons/releases/latest) into
+[latest release](https://github.com/cachewraith/shard-icons/releases/latest) into
 `<your vault>/.obsidian/plugins/shard-icons/`, then reload Obsidian.
 
 ### From Community Plugins (later)

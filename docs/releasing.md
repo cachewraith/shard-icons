@@ -16,9 +16,10 @@ Only plain `x.y.z` is accepted. Obsidian's manifest has no notion of a prereleas
 `version-bump.mjs` rejects anything else and puts `package.json` back as it was.
 
 Pushing the tag runs [`release.yml`](../.github/workflows/release.yml): lint, tests, build, a
-check that the tag matches `manifest.json`, then a GitHub release with `main.js`,
-`manifest.json` and `styles.css` attached. That release is what Obsidian's updater and BRAT
-read.
+check that the tag matches `manifest.json`, signed build provenance for the three assets, then a
+GitHub release with `main.js`, `manifest.json` and `styles.css` attached. That release is what
+Obsidian's updater and BRAT read. Anyone can check an asset came from this workflow with
+`gh attestation verify main.js --repo cachewraith/shard-icons`.
 
 ## Keeping icons up to date
 
@@ -35,7 +36,11 @@ the rest of the toolchain.
 - [x] A GitHub release tagged with the bare version, with `main.js`, `manifest.json` and
       `styles.css` as assets
 - [x] `LICENSE` at the repository root
-- [x] `main.js` and `src/generated/` are git-ignored, not committed
+- [x] `main.js` and the generated icon table are git-ignored, not committed (only its types,
+      `src/generated/icons.d.ts`, are)
+- [x] Release assets carry GitHub artifact attestations
+- [x] README links point at this repository, `cachewraith/shard-icons`, which is the one the
+      community listing names
 - [x] No network requests, no telemetry, no bundled analytics
 - [x] Styling through Obsidian's CSS variables; no hard-coded colors outside the icon art
 - [x] `isDesktopOnly: false`, and no Node or Electron API in the shipped bundle

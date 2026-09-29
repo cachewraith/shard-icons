@@ -11,6 +11,10 @@ on:
 
 permissions:
   contents: write
+  # Signed build provenance for the release assets, so anyone can check with
+  # `gh attestation verify main.js --repo cachewraith/shard-icons` that they were built here.
+  id-token: write
+  attestations: write
 
 jobs:
   release:
@@ -37,6 +41,14 @@ jobs:
             echo "tag $tag does not match manifest.json version $manifest" >&2
             exit 1
           fi
+
+      - name: Attest the release assets
+        uses: actions/attest-build-provenance@v4
+        with:
+          subject-path: |
+            main.js
+            manifest.json
+            styles.css
 
       - name: Create the release
         env:
