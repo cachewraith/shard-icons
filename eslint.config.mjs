@@ -18,15 +18,6 @@ export default tseslint.config(
 		},
 	},
 	{
-		// Obsidian 1.13.0 deprecated `PluginSettingTab.display()` and `setWarning()` in favour
-		// of APIs that do not exist in the 1.5.0 this plugin still supports.
-		files: ['src/settings/SettingsTab.ts', 'src/picker/ConfirmModal.ts'],
-		rules: {
-			'@typescript-eslint/no-deprecated': 'off',
-			'obsidianmd/settings-tab/prefer-setting-definitions': 'off',
-		},
-	},
-	{
 		// Build tooling and tests run in Node, not in Obsidian: its mobile-safety and
 		// console rules do not apply to code that never ships in main.js.
 		files: ['scripts/**/*.{ts,mjs}', 'tests/**/*.ts', '*.mjs', '*.config.ts'],

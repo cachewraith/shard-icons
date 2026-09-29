@@ -3,7 +3,9 @@ node_modules/
 # Build output
 main.js
 main.js.map
-src/generated/
+src/generated/*
+# Types only, committed so the source type-checks before the table is generated.
+!src/generated/icons.d.ts
 
 # Obsidian writes this into the plugin folder when the plugin runs from a vault
 data.json

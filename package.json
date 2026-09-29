@@ -8,12 +8,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cachewraith-labs/shard-icons.git"
+    "url": "git+https://github.com/cachewraith/shard-icons.git"
   },
   "bugs": {
-    "url": "https://github.com/cachewraith-labs/shard-icons/issues"
+    "url": "https://github.com/cachewraith/shard-icons/issues"
   },
-  "homepage": "https://github.com/cachewraith-labs/shard-icons#readme",
+  "homepage": "https://github.com/cachewraith/shard-icons#readme",
   "keywords": [
     "obsidian",
     "obsidian-plugin",

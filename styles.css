@@ -22,16 +22,17 @@ body {
 	height: var(--shard-icon-size);
 }
 
-/* Hide whatever the theme draws in that slot on rows this plugin decorates. `!important`
-   because themes scope these rules under body classes and the view type, out-ranking any
-   selector a plugin can reasonably write. */
-.nav-folder-title.shard-has-icon > .collapse-icon {
-	display: none !important;
+/* Hide whatever the theme draws in that slot on rows this plugin decorates. Themes scope these
+   rules under body classes and the view type, so a class-only selector loses to them; the
+   `:not(#shard-icons)` matches every row but carries an id's weight, which out-ranks any
+   theme selector built from classes, without `!important`. */
+.nav-folder-title.shard-has-icon:not(#shard-icons) > .collapse-icon {
+	display: none;
 }
 
-.nav-folder-title.shard-has-icon::before,
-.nav-file-title.shard-has-icon::before {
-	display: none !important;
+.nav-folder-title.shard-has-icon:not(#shard-icons)::before,
+.nav-file-title.shard-has-icon:not(#shard-icons)::before {
+	display: none;
 }
 
 .shard-icon-svg {
@@ -206,12 +207,4 @@ body {
 	align-items: center;
 	justify-content: space-between;
 	gap: var(--size-4-2);
-}
-
-/* --- Settings --------------------------------------------------------------------------- */
-
-.shard-settings-credit {
-	margin-top: var(--size-4-6);
-	color: var(--text-muted);
-	font-size: var(--font-smaller);
 }

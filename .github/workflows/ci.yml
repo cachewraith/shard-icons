@@ -24,6 +24,11 @@ jobs:
 
       - run: npm run lint
       - run: npm run typecheck
+
+      # `icons.d.ts` is committed so the source type-checks before the table is generated
+      # (the Obsidian review lints it that way); fail if the generator would change it.
+      - name: Check the committed icon types are current
+        run: git diff --exit-code -- src/generated/icons.d.ts
       - run: npm test
       - run: npm run build
 
