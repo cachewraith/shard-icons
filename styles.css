@@ -117,6 +117,16 @@ body {
 	font-size: var(--font-smaller);
 }
 
+/* A tab the current query finds nothing in. */
+.shard-picker-tab.is-empty:not(.is-active) {
+	opacity: 0.5;
+}
+
+.shard-picker-note {
+	color: var(--text-muted);
+	font-size: var(--font-smaller);
+}
+
 .shard-picker-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));

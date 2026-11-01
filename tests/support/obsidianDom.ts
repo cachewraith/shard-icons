@@ -24,4 +24,10 @@ export function installObsidianDom(): void {
 	proto['createSpan'] = function (this: Element, options?: CreateOptions) {
 		return create(this, 'span', options);
 	};
+	(globalThis.Node.prototype as unknown as Record<string, unknown>)['instanceOf'] = function (
+		this: Node,
+		type: abstract new (...args: never[]) => unknown,
+	) {
+		return Object.prototype.isPrototypeOf.call(type.prototype, this);
+	};
 }

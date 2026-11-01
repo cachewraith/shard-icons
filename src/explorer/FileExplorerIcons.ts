@@ -4,6 +4,8 @@
 // with a full pass only on events that can change many rows at once. The explorer recycles
 // rows as you scroll, so polling or rescanning the whole tree per mutation would be the
 // expensive way to do this; watching added nodes and reconciling by key is the cheap one.
+// Rows are watched for `data-path` changes too: at startup the explorer attaches a row before
+// it sets the row's path, and a row seen without a path would otherwise never be drawn.
 
 import type { App } from 'obsidian';
 import type { DecorationContext } from './decorate';
@@ -12,6 +14,7 @@ import { decorateTree, ICON_CLASS, undecorateTree } from './decorate';
 const EXPLORER_VIEW = 'file-explorer';
 /** Past this many queued subtrees, one pass over the pane beats visiting each of them. */
 const FULL_PASS_THRESHOLD = 64;
+const PATH_ATTR = 'data-path';
 
 export class FileExplorerIcons {
 	private readonly observers = new Map<HTMLElement, MutationObserver>();
@@ -65,7 +68,12 @@ export class FileExplorerIcons {
 	private watch(container: HTMLElement): void {
 		if (this.observers.has(container)) return;
 		const observer = new MutationObserver((records) => this.onMutations(records));
-		observer.observe(container, { childList: true, subtree: true });
+		observer.observe(container, {
+			childList: true,
+			subtree: true,
+			attributes: true,
+			attributeFilter: [PATH_ATTR],
+		});
 		this.observers.set(container, observer);
 	}
 
@@ -73,6 +81,10 @@ export class FileExplorerIcons {
 		for (const record of records) {
 			// Ignore the nodes this plugin just drew, so a render cannot feed itself.
 			if (record.target.instanceOf(Element) && record.target.closest(`.${ICON_CLASS}`)) continue;
+			if (record.type === 'attributes') {
+				if (record.target.instanceOf(Element)) this.pending.add(record.target);
+				continue;
+			}
 			for (const node of Array.from(record.addedNodes)) {
 				if (node.instanceOf(Element) && !node.classList.contains(ICON_CLASS)) this.pending.add(node);
 			}

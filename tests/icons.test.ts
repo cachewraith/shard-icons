@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { ICON_GROUPS } from '../src/icons/groups';
-import { iconGroup, iconMatches, isKnownIcon, parseIcon, searchTerms } from '../src/icons/icons';
+import { iconGroup, isKnownIcon, parseIcon } from '../src/icons/icons';
 
 describe('custom icons', () => {
 	it('parses theme folders, logos and file icons', () => {
@@ -53,22 +53,5 @@ describe('custom icons', () => {
 		for (const [group, icons] of Object.entries(ICON_GROUPS)) {
 			for (const icon of icons) expect(parseIcon(icon.id)?.kind).toBe(group);
 		}
-	});
-
-	it('matches on label and id', () => {
-		const fastapi = parseIcon('logo-fastapi');
-		expect(fastapi && iconMatches(fastapi, ['fast'])).toBe(true);
-		expect(fastapi && iconMatches(fastapi, ['logo-fast'])).toBe(true);
-		expect(fastapi && iconMatches(fastapi, ['laravel'])).toBe(false);
-		expect(fastapi && iconMatches(fastapi, [])).toBe(true);
-		expect(searchTerms('  Fast  API ')).toEqual(['fast', 'api']);
-	});
-
-	it('finds topics by their group and upstream aliases', () => {
-		const school = parseIcon('topic-school');
-		const cash = parseIcon('topic-cash');
-		expect(school && iconMatches(school, ['education'])).toBe(true);
-		expect(cash && iconMatches(cash, ['money'])).toBe(true);
-		expect(cash && iconMatches(cash, ['education'])).toBe(false);
 	});
 });

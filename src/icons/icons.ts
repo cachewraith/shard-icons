@@ -67,23 +67,3 @@ export function isKnownIcon(id: string): boolean {
 export function iconGroup(id: string): IconGroup {
 	return parseIcon(id)?.kind ?? 'file';
 }
-
-/** Anything a picker can offer: a stored id, the name shown under it, and extra search words. */
-export interface IconChoice {
-	readonly id: string;
-	readonly label: string;
-	readonly terms?: string;
-}
-
-/**
- * Search text: the label, the id and any extra words, so `fastapi`, `FastAPI` and
- * `logo-fastapi` all match, and `education` finds `topic-school`.
- */
-export function iconMatches(icon: IconChoice, terms: readonly string[]): boolean {
-	const haystack = `${icon.label} ${icon.id} ${icon.terms ?? ''}`.toLowerCase();
-	return terms.every((term) => haystack.includes(term));
-}
-
-export function searchTerms(query: string): string[] {
-	return query.toLowerCase().split(/\s+/).filter(Boolean);
-}
