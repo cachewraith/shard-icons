@@ -6,6 +6,7 @@ import type { Menu, TAbstractFile } from 'obsidian';
 import { Plugin, TFile, TFolder } from 'obsidian';
 import type { DecorationContext } from './explorer/decorate';
 import { FileExplorerIcons } from './explorer/FileExplorerIcons';
+import { SearchResultIcons } from './explorer/SearchResultIcons';
 import { clearIconCache } from './icons/render';
 import type { IconCatalog } from './picker/catalogs';
 import { FILE_CATALOG, FOLDER_CATALOG } from './picker/catalogs';
@@ -18,16 +19,18 @@ const SIZE_VARIABLE = '--shard-icon-size';
 export default class ShardIconsPlugin extends Plugin {
 	private store!: IconStore;
 	private explorer!: FileExplorerIcons;
+	private search!: SearchResultIcons;
 
 	override async onload(): Promise<void> {
 		this.store = new IconStore(this);
 		await this.store.load();
 
 		this.explorer = new FileExplorerIcons(this.app, () => this.decorationContext());
+		this.search = new SearchResultIcons(this.app, () => this.decorationContext());
 		this.register(
 			this.store.onChange(() => {
 				this.applyIconSize();
-				this.explorer.refresh();
+				this.refreshViews();
 			}),
 		);
 
@@ -63,20 +66,26 @@ export default class ShardIconsPlugin extends Plugin {
 		);
 		this.registerEvent(this.app.vault.on('delete', (file) => void this.store.handleDelete(file.path)));
 
-		this.registerEvent(this.app.workspace.on('layout-change', () => this.explorer.refresh()));
+		this.registerEvent(this.app.workspace.on('layout-change', () => this.refreshViews()));
 		// Theme switches change which light/dark icon variant applies.
-		this.registerEvent(this.app.workspace.on('css-change', () => this.explorer.refresh()));
+		this.registerEvent(this.app.workspace.on('css-change', () => this.refreshViews()));
 
 		this.app.workspace.onLayoutReady(() => {
 			this.applyIconSize();
-			this.explorer.refresh();
+			this.refreshViews();
 		});
 	}
 
 	override onunload(): void {
 		this.explorer.stop();
+		this.search.stop();
 		clearIconCache();
 		document.body.style.removeProperty(SIZE_VARIABLE);
+	}
+
+	private refreshViews(): void {
+		this.explorer.refresh();
+		this.search.refresh();
 	}
 
 	private decorationContext(): DecorationContext {
