@@ -41,6 +41,8 @@ Most folders are matched automatically from their name. Anything else takes two 
   icon.
 - **Fits your theme.** The icon replaces the one your theme draws instead of sitting next to it,
   and switches to light variants in light mode.
+- **Icons in search results too.** Files in the search pane show the same icon as in the file
+  explorer.
 - **Follows your files.** Renaming or moving a folder keeps its icon, and the icons of everything
   inside it.
 - **Private and offline.** No network requests and no telemetry. Every icon ships inside the
