@@ -4,6 +4,15 @@ All notable changes to Shard Icons are listed here. Versions follow
 [semantic versioning](https://semver.org). Notes for releases before 1.0.0 are on the
 [releases page](https://github.com/cachewraith/shard-icons/releases).
 
+## 1.1.0 — 2026-11-05
+
+### Added
+
+- **Icons in search results.** Each file in the search pane now shows the same icon it has in
+  the file explorer, beside its name. A file shows the icon you chose for it, or, with
+  _File icons_ on, the one matched from its name and extension. Icons follow your changes,
+  your theme and scrolling, and are removed when the plugin is turned off.
+
 ## 1.0.0 — 2026-11-01
 
 Shard Icons is now stable. This release fixes icons that could go missing at startup and makes
